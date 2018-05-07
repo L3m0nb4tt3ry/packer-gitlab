@@ -1,0 +1,26 @@
+{
+    "builders":[
+      {
+        "type": "docker",
+        "image": "ubuntu",
+        "commit": true
+      }
+   ],
+    "provisioners":[
+      {
+        "type": "shell",
+        "execute_command": "echo 'vagrant' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+        "script": "scripts/ansible.sh"
+      },
+      {
+        "type": "ansible-local",
+        "playbook_file": "gitlab.yml"
+      }
+    ],
+    "post-processors": [
+      {
+            "type": "vagrant",
+            "output": "output.box"
+      }
+    ]
+}
